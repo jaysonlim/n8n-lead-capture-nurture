@@ -1,0 +1,391 @@
+{
+  "name": "Lead Capture & Nurture",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Contact Us",
+        "formDescription": "We'll get back to you soon",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name"
+            },
+            {
+              "fieldLabel": "Type Email",
+              "fieldType": "email"
+            },
+            {
+              "fieldLabel": "Message",
+              "fieldType": "textarea"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        -272,
+        -32
+      ],
+      "id": "1febfa19-5a1c-4012-84bd-8c96157cb2bf",
+      "name": "On form submission",
+      "webhookId": "e0f620d0-ebb2-4dfe-a5af-d9d1661c1ecf"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1008,
+        16
+      ],
+      "id": "f6fdc47f-fe8f-4a21-b922-6ac7555676f8",
+      "name": "Wait",
+      "webhookId": "526a77c0-c0ec-49a7-b947-ccf804803cf4"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2a275389-bbc5-4a3c-a972-4e064af56fe5",
+              "leftValue": "={{ $json.Message }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        16,
+        -48
+      ],
+      "id": "a5ea356e-6a5a-4dc5-b330-d99797d81987",
+      "name": "Has message?"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "YOUR_SHEET_ID": {
+          "__rl": true,
+          "value": "1Vo4y5fX_QhLdW3P17r76wS940XGIsw5PhSBlwhR2dgc",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Vo4y5fX_QhLdW3P17r76wS940XGIsw5PhSBlwhR2dgc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Vo4y5fX_QhLdW3P17r76wS940XGIsw5PhSBlwhR2dgc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "email": "={{ $json['Type Email'] }}",
+            "message": "={{ $json.Message }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        288,
+        -160
+      ],
+      "id": "542731bd-c5a2-4993-90f8-610524c4d75a",
+      "name": "Save lead",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GAkDCumSH6fiSI8j",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "YOUR_SHEET_ID": {
+          "__rl": true,
+          "value": "1Vo4y5fX_QhLdW3P17r76wS940XGIsw5PhSBlwhR2dgc",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Vo4y5fX_QhLdW3P17r76wS940XGIsw5PhSBlwhR2dgc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1053421030,
+          "mode": "list",
+          "cachedResultName": "spam",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Vo4y5fX_QhLdW3P17r76wS940XGIsw5PhSBlwhR2dgc/edit#gid=1053421030"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "email": "={{ $json['Type Email'] }}",
+            "message": "={{ $json.Message }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        240,
+        48
+      ],
+      "id": "b0c00fb3-9024-4fdf-8d00-69ee16f74f01",
+      "name": "Log spam",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GAkDCumSH6fiSI8j",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "your-email@example.com",
+        "subject": "=New lead:  {{ $json.Name }}",
+        "emailType": "text",
+        "message": "=New lead came in!\n\nName: {{ $json.Name }}\nEmail: {{ $json.email }}\nMessage: {{ $json.message }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        528,
+        -160
+      ],
+      "id": "a8760aab-c791-4d65-a4a8-f14556635353",
+      "name": "Notify me",
+      "webhookId": "f64eaa55-a8f4-4122-95ca-f79d96668f4c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "uOwcsDxdBHqUbqo4",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('On form submission').item.json['Type Email'] }}",
+        "subject": "Thanks for reaching out!",
+        "emailType": "text",
+        "message": "=Hi {{ $('On form submission').item.json.Name }},\n\nThanks for getting in touch! We received your message and will get back to you within 24 hours.\n\nTalk soon!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        768,
+        -160
+      ],
+      "id": "9097d2a2-c3d3-4088-8d08-b82d28a3e228",
+      "name": "Auto-reply",
+      "webhookId": "7f5d29d4-4c45-4eea-b2e8-04fb42ef425d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "uOwcsDxdBHqUbqo4",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('On form submission').item.json['Type Email'] }}",
+        "subject": "Just checking in!",
+        "emailType": "text",
+        "message": "=Hi {{ $('On form submission').item.json.Name }},\n\nJust following up on your message. Do you have any questions we can help with?\n\nTalk soon!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1232,
+        16
+      ],
+      "id": "bd438a0c-e843-4d5b-97b5-70e50bc0bdf8",
+      "name": "Follow-up",
+      "webhookId": "9516e10a-52d7-486c-a96e-d1c2a295777c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "uOwcsDxdBHqUbqo4",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Has message?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Follow-up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has message?": {
+      "main": [
+        [
+          {
+            "node": "Save lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log spam",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save lead": {
+      "main": [
+        [
+          {
+            "node": "Notify me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify me": {
+      "main": [
+        [
+          {
+            "node": "Auto-reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auto-reply": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "02a16fa6-9e06-4251-8e08-79aa103b7a03",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "97a3cc6122d629141451ac269c314dfe5c442d5138ff6379c4e945aab938493a"
+  },
+  "nodeGroups": [],
+  "id": "O67Sfi7a9cmM1EtN",
+  "tags": []
+}
